@@ -1,4 +1,4 @@
-AuthList = {
+local AuthList = {
 	AP55T21694YT457713Y = "",
   	J47S8DKJ4LI987ASH24 = "",
 	10RDF5UZKZBX3B8OWIW = "",
