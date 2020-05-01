@@ -42,3 +42,4 @@ local AuthList = {
 	450DR45FHNQDCE8OOI1 = ""
 }
 
+return(AuthList)
