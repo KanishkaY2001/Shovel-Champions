@@ -1,0 +1,130 @@
+local dataUpdate = {}
+----- Data Storage -----
+local ss = game:GetService("ServerStorage")
+local sss = game:GetService("ServerScriptService")
+local repS = game:GetService("ReplicatedStorage")
+local DataStoreService = game:GetService("DataStoreService")
+local up_st = repS.Remotes.Update_Stats
+local DataStore2 = require(sss.DataStore2)
+
+_G.defLevel = 1
+_G.defExp = 0
+_G.defTime = 0
+_G.defShovel = "Weak Wood Shovel"
+_G.defGold = 0
+_G.defMats = 0
+_G.defZone = "Newbie"
+_G.defDailyRewards = {os.time(),os.time()+900,os.time()+900} -- lastPlayed,normalReward,groupReward
+_G.defExpMultiple = 1
+_G.defCoinMultiple = 1
+_G.defPetsOwned = {
+	["Archer"] = {{1,0},{2,0},{3,0},{4,3},{5,0}},
+	["Dragon"] = {{1,0},{2,0},{3,0},{4,3},{5,0}},
+	["Goblin"] = {{1,0},{2,0},{3,0},{4,3},{5,0}},
+	["Polar Bear"] = {{1,0},{2,0},{3,0},{4,3},{5,0}},
+	["Crystal Golem"] = {{1,0},{2,0},{3,0},{4,3},{5,0}}
+}
+
+local defKeys = {
+	["PetsOwned"] = _G.defPetsOwned,
+	["Level"] = _G.defLevel,
+	["Experience"] = _G.defExp,
+	["TimePlayed"] = _G.defTime,
+	["CurrentShovel"] = _G.defShovel,
+	["Gold"] = _G.defGold,
+	["MatsCollected"] = _G.defMats,
+	["Zone"] = _G.defZone,
+	["ExpMultiple"] = _G.defExpMultiple,
+	["CoinMultiple"] = _G.defCoinMultiple,
+	["DailyRewards"] = _G.defDailyRewards
+}
+
+----- Global Data Store -----
+_G.richestInGame = DataStoreService:GetOrderedDataStore("GameRichest_90")
+_G.skilledInGame = DataStoreService:GetOrderedDataStore("GameSkilled_90")
+
+function updRem(player,tempVal,keyName)
+	up_st:FireClient(player,keyName,tempVal)
+end
+
+function dataUpdate.updGlobalData(player,key2)
+	local playerKey = tostring("nastaStudios-" .. player.UserId)
+	if key2 == "Gold" then
+		_G.richestInGame:SetAsync(playerKey,math.floor(_G.dataUpdMod.manipulateData(player,"Get","Gold")))
+	elseif key2 == "Level" then
+		_G.skilledInGame:SetAsync(playerKey,_G.dataUpdMod.manipulateData(player,"Get","Level"))
+	end
+end
+
+function dataUpdate.manipulateData(player, command, key2, value)
+	local petsOwnedStore = DataStore2("PetsOwned", player)
+	local levelStore = DataStore2("Level", player)
+	local expStore = DataStore2("Experience", player)
+	local timeStore = DataStore2("TimePlayed", player)
+	local shovelStore = DataStore2("CurrentShovel", player)
+	local goldStore = DataStore2("Gold", player)
+	local matsStore = DataStore2("MatsCollected", player)
+	local zoneStore = DataStore2("Zone", player)
+	local expMultipleStore = DataStore2("ExpMultiple", player)
+	local coinMultipleStore = DataStore2("CoinMultiple", player)
+	
+	local dataStores = {
+		["PetsOwned"] = DataStore2("PetsOwned", player),
+		["Level"] = DataStore2("Level", player),
+		["Experience"] = DataStore2("Experience", player),
+		["TimePlayed"] = DataStore2("TimePlayed", player),
+		["CurrentShovel"] = DataStore2("CurrentShovel", player),
+		["Gold"] = DataStore2("Gold", player),
+		["MatsCollected"] = DataStore2("MatsCollected", player),
+		["Zone"] = DataStore2("Zone", player),
+		["ExpMultiple"] = DataStore2("ExpMultiple", player),
+		["CoinMultiple"] = DataStore2("CoinMultiple", player),
+		["DailyRewards"] = DataStore2("DailyRewards",player)
+	}
+
+	if command == "Increment" then
+		dataStores[key2]:Increment(value)
+		local lvl = _G.dataUpdMod.manipulateData(player,"Get","Level")
+		if key2 == "Experience" and _G.dataUpdMod.manipulateData(player,"Get","Experience") >= math.floor(25*(lvl*lvl)-25*lvl+50) then
+			while _G.dataUpdMod.manipulateData(player,"Get","Experience") >= math.floor(25*(lvl*lvl)-25*lvl+50) do
+				wait()
+				local leftOver = _G.dataUpdMod.manipulateData(player,"Get","Experience") - math.floor(25*(lvl*lvl)-25*lvl+50)
+				_G.dataUpdMod.manipulateData(player,"Increment","Level",1)
+				_G.dataUpdMod.manipulateData(player,"Set","Experience",leftOver)
+			end
+		end
+	elseif command == "Get" then
+		return dataStores[key2]:Get(defKeys[key2])
+	elseif command == "Set" then
+		dataStores[key2]:Set(value)
+	end
+	updRem(player,dataStores[key2]:Get(defKeys[key2]),key2)
+end
+
+function dataUpdate.updateShovel(player)
+	if player.Character ~= nil and player.Character.Humanoid.Health ~= 0 then
+		local char = player.Character
+		if char:FindFirstChild("Shovel") then
+			char.UpperTorso:FindFirstChild("ShovelWeld"):Destroy()
+			char:FindFirstChild("Shovel"):Destroy()
+		end
+		local wc = Instance.new("WeldConstraint")
+		local cl = ss.Shovels:FindFirstChild(_G.dataUpdMod.manipulateData(player,"Get","CurrentShovel"),true):Clone()
+		if string.find(cl.Name,"Crystalline") then
+			cl:SetPrimaryPartCFrame(char.UpperTorso.CFrame*CFrame.new(0.4,0.4,0.75)*CFrame.Angles(0,math.rad(180),math.rad(45)))
+		else
+			cl:SetPrimaryPartCFrame(char.UpperTorso.CFrame*CFrame.new(0.7,0.7,0.65)*CFrame.Angles(0,math.rad(180),math.rad(45)))
+		end
+		wc.Parent = char.UpperTorso
+		wc.Part0 = char.UpperTorso
+		wc.Part1 = cl.PrimaryPart
+		cl.Name = "Shovel"
+		wc.Name = "ShovelWeld"
+		cl.Parent = char
+		for _,v in pairs(cl:GetChildren()) do
+			v.Anchored = false
+		end
+	end
+end
+
+return dataUpdate
