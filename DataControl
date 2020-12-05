@@ -1,0 +1,673 @@
+local dataAuth = require(game.ServerScriptService.DataAuth)
+if dataAuth.checkAuth() == true then
+	----- Object Definitions -----
+	local PhysicsService = game:GetService("PhysicsService")
+	local Players = game:GetService("Players")
+	local repS = game:GetService("ReplicatedStorage")
+	local MarketplaceService = game:GetService("MarketplaceService")
+	local TweenService = game:GetService("TweenService")
+	local DataStoreService = game:GetService("DataStoreService")
+	local ss = game:GetService("ServerStorage")
+	local sss = game:GetService("ServerScriptService")
+	local productFunctions = {}
+
+	----- Data Storage -----
+	local purchaseHistoryStore = DataStoreService:GetDataStore("PurchaseHistory")
+	local DataStore2 = require(sss.DataStore2)
+	DataStore2.Combine("DATA90","Level","Experience","TimePlayed","CurrentShovel","Gold","MatsCollected","Zone","PetsOwned","DailyRewards","CoinMultiple","ExpMultiple")
+	_G.dataUpdMod = require(sss.DataControl.DataUpdate)
+
+	----- Collision -----
+	local defaultGroup = PhysicsService:GetCollisionGroupName(0)
+	local playerGrp = "PlayerGroup"
+	local doorList = {
+		door1 = "Door1",
+		door2 = "Door2",
+		door3 = "Door3",
+		door4 = "Door4",
+		door5 = "Door5"
+	}
+
+	----- Other Stats -----
+	local zoneLevel = {
+		["Newbie"] = 0,
+		["Farm"] = 1,
+		["Waterfall"] = 2,
+		["Castle"] = 3,
+		["Iceland"] = 4,
+		["Crystalline"] = 5
+	}
+	local petEggInfo = {
+		["Egg0"] = {
+			{"Lion",0.70,0.86}, -- Boost: 9, Dmg: 43, Cost: 1837 ---------------- 16% chance
+			{"Rabbit",0.50,0.70}, -- Boost: 7, Dmg: 36, Cost: 1276 ---------------- 20% chance
+			{"Cat",0.28,0.50}, -- Boost: 6, Dmg: 29, Cost: 816 ---------------- 22% chance
+			{"Deer",0,0.28}, -- Boost: 4, Dmg: 21, Cost: 459 ---------------- 28% chance
+			{"Happy",0.86,1}}, -- Boost: 10, Dmg: 50, Cost: 2500 ---------------- 14% chance
+		["Egg1"] = {
+			{"Chicken",0.74,0.88}, -- Boost: 34, Dmg: 171, Cost: 29388 ---------------- 14% chance
+			{"Cow",0.56,0.74}, -- Boost: 29, Dmg: 143, Cost: 20408 ---------------- 18% chance
+			{"Horse",0.30,0.56}, -- Boost: 23, Dmg: 114, Cost: 13061 ---------------- 26% chance
+			{"Pig",0,0.30}, -- Boost: 17, Dmg: 86, Cost: 7347 ---------------- 30% chance
+			{"Farmer",0.88,1}}, -- Boost: 40, Dmg: 200, Cost: 40000 ---------------- 12% chance
+		["Egg2"] = {	
+			{"Green Slime",0.78,0.90}, -- Boost: 99, Dmg: 493, Cost: 242908 ---------------- 12% chance
+			{"Orange",0.62,0.78}, -- Boost: 82, Dmg: 411, Cost: 168686 ---------------- 16% chance
+			{"Wolf",0.38,0.62}, -- Boost: 66, Dmg: 329, Cost: 107959 ---------------- 24% chance
+			{"Blue Slime",0,0.38}, -- Boost: 49, Dmg: 246, Cost: 60727 ---------------- 38% chance
+			{"Frog",0.90,1}}, -- Boost: 115, Dmg: 575, Cost: 330625 ---------------- 10% chance
+		["Egg3"] = {
+			{"Boxer",0.82,0.92}, -- Boost: 231, Dmg: 1157, Cost: 1338980 ---------------- 10% chance
+			{"Assassin",0.68,0.82}, -- Boost: 193, Dmg: 964, Cost: 929847 ---------------- 14% chance
+			{"Archer",0.40,0.68}, -- Boost: 154, Dmg: 771, Cost: 595102 ---------------- 28% chance
+			{"Wizard",0,0.40}, -- Boost: 116, Dmg: 579, Cost: 334745 ---------------- 40% chance
+			{"Goblin Slayer",0.92,1}}, -- Boost: 270, Dmg: 1350, Cost: 1822500 ---------------- 8% chance
+		["Egg4"] = {
+			{"Goblin",0.86,0.94}, -- Boost: 943, Dmg: 4714, Cost: 22224490 ---------------- 8% chance
+			{"Penguin",0.74,0.86}, -- Boost: 786, Dmg: 3929, Cost: 15433673 ---------------- 12% chance
+			{"Fox",0.50,0.74}, -- Boost: 629, Dmg: 3143, Cost: 9877551 ---------------- 24% chance
+			{"Ghost",0,0.50}, -- Boost: 471, Dmg: 2357, Cost: 5556122 ---------------- 50% chance
+			{"Polar Bear",0.94,1}}, -- Boost: 1100, Dmg: 5500, Cost: 30250000 ---------------- 6% chance
+		["Egg5"] = {
+			{"Crystal",0.93,0.99}, -- Boost: 5143, Dmg: 25714, Cost: 661224490 ---------------- 6% chance
+			{"Crystal Dominus",0.83,0.93}, -- Boost: 4286, Dmg: 21429, Cost: 459183673 ---------------- 10% chance
+			{"Miner",0.63,0.83}, -- Boost: 3429, Dmg: 17143, Cost: 293877551 ---------------- 20% chance
+			{"Crystal Golem",0,0.63}, -- Boost: 2571, Dmg: 12857, Cost: 165306122 ---------------- 60% chance
+			{"Dragon",0.99,1} -- Boost: 6000, Dmg: 30000, Cost: 900000000 ---------------- 1% chance
+		}
+	}
+
+	-- Create two collision groups
+	PhysicsService:CreateCollisionGroup(playerGrp)
+	for i = 1,5 do
+		PhysicsService:CreateCollisionGroup(doorList['door' .. i])
+	end
+
+	----- Remotes -----
+	local plrStats = repS.Remotes.Get_Stats
+	local updClient = repS.Remotes.Update_Client
+	local buySell = repS.Remotes.Buy_Sell
+	local devProducts = repS.Remotes.Dev_Products
+	local eggHatch = repS.Remotes.Egg_Hatch
+
+	for _,v in pairs(game.Workspace.Doors:GetChildren()) do
+		PhysicsService:SetPartCollisionGroup(v, doorList[v.Name])
+	end
+
+	eggHatch.OnServerInvoke = function(player,num,shopName)
+		if petEggInfo[shopName] then
+			local randomPets = {}
+			for i = 1,num do
+				local chance = math.random()
+				for _,v in pairs(petEggInfo[shopName]) do
+					if chance >= v[2] and chance < v[3] then
+						table.insert(randomPets,v[1])
+						local dict = _G.dataUpdMod.manipulateData(player,"Get","PetsOwned")
+						if dict[v[1]] == nil then
+							dict[v[1]] = {{1,1},{2,0},{3,0},{4,0},{5,0}}
+						else
+							dict[v[1]][1][2] = dict[v[1]][1][2]+1
+						end
+						_G.dataUpdMod.manipulateData(player,"Set","PetsOwned",dict)
+						break
+					end
+				end
+			end
+			return randomPets
+		end
+		return nil
+	end
+
+	local function CharacterAdded(char)
+		--Character added:
+		local player = game.Players:GetPlayerFromCharacter(char)
+		player.CharacterAppearanceLoaded:Connect(function(char)
+			----- Attaching Shovel -----
+			spawn(function()
+				wait(2)
+				print("Giving Shovel")
+				_G.dataUpdMod.updateShovel(player)
+			end)
+			----- Creating Collision Groups -----
+			for _,v in pairs(char:GetDescendants()) do
+				if (v:IsA("BasePart")) then
+					PhysicsService:SetPartCollisionGroup(v, playerGrp)
+				end
+			end
+			PhysicsService:CollisionGroupSetCollidable(playerGrp, playerGrp, false)
+			whitelistDoors(player)
+		end)
+
+		spawn(function()
+			while Players:FindFirstChild(player.Name) ~= nil do
+				wait(10)
+				if Players:FindFirstChild(player.Name) == nil then
+					return
+				end
+				_G.dataUpdMod.updGlobalData(player,"Level")
+				_G.dataUpdMod.updGlobalData(player,"Gold")
+				_G.dataUpdMod.manipulateData(player,"Increment","TimePlayed",30)
+				local timeTable = _G.dataUpdMod.manipulateData(player,"Get","DailyRewards")
+				_G.dataUpdMod.manipulateData(player,"Set","DailyRewards",{timeTable[1]+30,timeTable[2],timeTable[3]})
+				spawn(function()
+					updateGlobalLB(game.Workspace.Leaderboards.GameRichest.PrimaryPart.SurfaceGui.Players,"Gold")
+				end)
+				spawn(function()
+					updateGlobalLB(game.Workspace.Leaderboards.GameLevel.PrimaryPart.SurfaceGui.Players,"Level")
+				end)
+			end
+		end)
+	end
+
+	function updateGlobalLB(frame,lbType)
+		local pageSize = 6
+		local pages
+		if lbType == "Gold" then
+			pages = _G.richestInGame:GetSortedAsync(false, pageSize)
+		elseif lbType == "Level" then
+			pages = _G.skilledInGame:GetSortedAsync(false, pageSize)
+		end
+		
+		for _,v in pairs(frame:GetChildren()) do
+			if v:IsA("TextLabel") then
+				v.Text = ""
+			end
+		end
+		
+		if pages ~= nil then
+			local topSix = pages:GetCurrentPage()
+			for rank, data in ipairs(topSix) do
+				local name = data.key
+				local points = data.value
+				if tonumber(string.sub(data.key,14)) < 0 then
+					frame:FindFirstChild(rank).Text = Players:GetNameFromUserIdAsync(1467362277) .. " : " .. numAbb(data.value)
+				else
+					frame:FindFirstChild(rank).Text = Players:GetNameFromUserIdAsync(tonumber(string.sub(data.key,14))) .. " : " .. numAbb(data.value)
+				end
+			end
+		end
+	end
+
+	local function PlayerAdded(player)
+		_G.dataUpdMod.manipulateData(player,nil,"PetsOwned")
+		_G.dataUpdMod.manipulateData(player,nil,"Level")
+		_G.dataUpdMod.manipulateData(player,nil,"Experience")
+		_G.dataUpdMod.manipulateData(player,nil,"TimePlayed")
+		_G.dataUpdMod.manipulateData(player,nil,"CurrentShovel")
+		_G.dataUpdMod.manipulateData(player,nil,"Gold")
+		_G.dataUpdMod.manipulateData(player,nil,"MatsCollected")
+		_G.dataUpdMod.manipulateData(player,nil,"Zone")
+		_G.dataUpdMod.manipulateData(player,nil,"DailyRewards")
+		_G.dataUpdMod.manipulateData(player,nil,"CoinMultiple")
+		_G.dataUpdMod.manipulateData(player,nil,"ExpMultiple")
+		
+		player.CharacterAdded:Connect(CharacterAdded)
+		local char = player.Character
+		if char then
+			CharacterAdded(char)
+		end
+	end
+	game.Players.PlayerAdded:Connect(PlayerAdded)
+	for i,v in next,game.Players:GetPlayers() do
+		PlayerAdded(v)
+	end
+
+	game.Workspace.OtherUtilities.EdgeTeleporter.TeleporterPad.Touched:Connect(function(limb)
+		if limb.Parent ~= nil and limb.Parent:FindFirstChild("HumanoidRootPart") then
+			limb.Parent:FindFirstChild("HumanoidRootPart").CFrame = game.Workspace.OtherUtilities.EdgeTeleporter.TargetPad.CFrame *CFrame.new(0,4,0)
+		end
+	end)
+
+	updClient.OnServerEvent:Connect(function(player,cmd,amount)
+		if cmd == "UpdateShovel" then
+			_G.dataUpdMod.updateShovel(player)
+		elseif cmd == "Gold" and ss.InHandEvents:FindFirstChild(player.UserId .. "_GOLD") then
+			ss.InHandEvents:FindFirstChild(player.UserId .. "_GOLD"):Destroy()
+			_G.dataUpdMod.manipulateData(player,"Increment","Gold",amount)
+		elseif cmd == "Exp" and ss.InHandEvents:FindFirstChild(player.UserId .. "_EXP") then
+			ss.InHandEvents:FindFirstChild(player.UserId .. "_EXP"):Destroy()
+			_G.dataUpdMod.manipulateData(player,"Increment","Experience",amount)
+		end
+	end)
+
+	plrStats.OnServerInvoke = function(player,checkType,stat,reqmt)
+		if checkType == "requirement" then
+			if stat == "Level" and _G.dataUpdMod.manipulateData(player,"Get","Level") >= reqmt then
+				return true
+			elseif stat == "Zone" and zoneLevel[_G.dataUpdMod.manipulateData(player,"Get","Zone")] >= reqmt then
+				return true
+			end
+		elseif checkType == "checkStat" and _G.dataUpdMod.manipulateData(player,"Get",stat) ~= nil then
+			return _G.dataUpdMod.manipulateData(player,"Get",stat)
+		elseif checkType == "checkZoneLvl" and _G.dataUpdMod.manipulateData(player,"Get","Zone") ~= nil then
+			return zoneLevel[_G.dataUpdMod.manipulateData(player,"Get","Zone")]
+		elseif checkType == "getDamage" then
+			local Base = repS.GameStats:FindFirstChild(_G.dataUpdMod.manipulateData(player,"Get","CurrentShovel"),true).Damage.Value
+			local PlrLevel = _G.dataUpdMod.manipulateData(player,"Get","Level")/200
+			local LevelMap = zoneLevel[_G.dataUpdMod.manipulateData(player,"Get","Zone")]
+			if LevelMap == 0 then
+				LevelMap = 1
+			end
+			local totalDmg = LevelMap*Base + Base*PlrLevel
+			return totalDmg
+		elseif checkType == "normalDailyReward" then
+			local timeTable = _G.dataUpdMod.manipulateData(player,"Get","DailyRewards")
+			if timeTable[1] >= timeTable[2] then
+				_G.dataUpdMod.manipulateData(player,"Set","DailyRewards",{timeTable[1],os.time()+86400,timeTable[3]})
+				return true
+			else
+				return false
+			end
+		elseif checkType == "groupDailyReward" then
+			local timeTable = _G.dataUpdMod.manipulateData(player,"Get","DailyRewards")
+			if timeTable[1] >= timeTable[3] then
+				_G.dataUpdMod.manipulateData(player,"Set","DailyRewards",{timeTable[1],timeTable[2],os.time()+86400})
+				return true
+			else
+				return false
+			end
+		elseif checkType == "eggShop" then
+			if petEggInfo[stat] then
+				return petEggInfo[stat]
+			end
+			return nil
+		end
+	end
+
+	buySell.OnServerInvoke = function(player,checkType,item,evolutionLvl)
+		if checkType == "Buy" then
+			if repS.GameStats:FindFirstChild(item,true) then
+				local obj = repS.GameStats:FindFirstChild(item,true)
+				if _G.dataUpdMod.manipulateData(player,"Get","Gold") >= obj.Cost.Value then
+					if obj.Parent.Name == "PetStats" then
+						_G.dataUpdMod.manipulateData(player,"Increment","Gold",-1*obj.Cost.Value)
+						local dict = _G.dataUpdMod.manipulateData(player,"Get","PetsOwned")
+						if dict[item] == nil then
+							dict[item] = {{1,1},{2,0},{3,0},{4,0},{5,0}}
+						else
+							dict[item][1][2] = dict[item][1][2]+1
+						end
+						_G.dataUpdMod.manipulateData(player,"Set","PetsOwned",dict)
+						return true
+					elseif obj.Parent.Name == "ShovelStats" and _G.dataUpdMod.manipulateData(player,"Get","CurrentShovel") ~= item then
+						_G.dataUpdMod.manipulateData(player,"Increment","Gold",-1*obj.Cost.Value)
+						_G.dataUpdMod.manipulateData(player,"Set","CurrentShovel",item)
+						_G.dataUpdMod.updateShovel(player)
+						return true
+					elseif obj.Parent.Name == "ShovelStats" and _G.dataUpdMod.manipulateData(player,"Get","CurrentShovel") == item then
+						updClient:FireClient(player,"Warn","Cannot purchase Shovel.\n Already own: " .. item)
+					end
+				end
+				return false
+			end
+		elseif checkType == "BuyEggs" then
+			if _G.dataUpdMod.manipulateData(player,"Get","Gold") >= item then
+				_G.dataUpdMod.manipulateData(player,"Increment","Gold",-1*item)
+				return true
+			end
+			return false
+		elseif checkType == "EvolvePet" then
+			if repS.GameStats:FindFirstChild(item,true) then
+				local obj = repS.GameStats:FindFirstChild(item,true)
+				local dict = _G.dataUpdMod.manipulateData(player,"Get","PetsOwned")
+				for i,v in pairs(dict[item]) do
+					if dict[item][i][1] == evolutionLvl-1 then
+						dict[item][i][2] = dict[item][i][2]-3
+					elseif dict[item][i][1] == evolutionLvl then
+						dict[item][i][2] = dict[item][i][2]+1
+					end
+				end
+				_G.dataUpdMod.manipulateData(player,"Set","PetsOwned",dict)
+				return true
+			end
+		elseif checkType == "BuyZone" then
+			local cost = item.Cost.Value
+			if _G.dataUpdMod.manipulateData(player,"Get","Gold") >= cost then
+				for zone,num in pairs(zoneLevel) do
+					if num == tonumber(string.sub(item.Name,5)) then
+						_G.dataUpdMod.manipulateData(player,"Increment","Gold",-1*cost)
+						for i,v in pairs(zoneLevel) do
+							if num == v then
+								_G.dataUpdMod.manipulateData(player,"Set","Zone",i)
+								updClient:FireClient(player,"Door",item)
+								whitelistDoors(player)
+								return true
+							end
+						end
+					end
+				end
+			else
+				return false
+			end
+		end
+	end
+
+	devProducts.OnServerEvent:Connect(function(player,product)
+		MarketplaceService:PromptProductPurchase(player,product)
+	end)
+
+	----- Developer Products -----
+
+	----- GOLD -----
+
+	productFunctions[1122867131] = function(receipt, player) -- Gold Tier 6
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+	productFunctions[1122867132] = function(receipt, player) -- Gold Tier 5
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+	productFunctions[1122867135] = function(receipt, player) -- Gold Tier 4
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+	productFunctions[1122867136] = function(receipt, player) -- Gold Tier 3
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+	productFunctions[1122867139] = function(receipt, player) -- Gold Tier 2
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+	productFunctions[1122867141] = function(receipt, player) -- Gold Tier 1
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_GOLD"
+		updClient:FireClient(player,"Gold")
+		return true
+	end
+
+	----- EXP -----
+
+	productFunctions[1122868269] = function(receipt, player) -- Exp Tier 6
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+	productFunctions[1122868270] = function(receipt, player) -- Exp Tier 5
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+	productFunctions[1122868271] = function(receipt, player) -- Exp Tier 4
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+	productFunctions[1122868272] = function(receipt, player) -- Exp Tier 3
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+	productFunctions[1122868273] = function(receipt, player) -- Exp Tier 2
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+	productFunctions[1122868275] = function(receipt, player)  -- Exp Tier 1
+		local intAmnt = Instance.new("IntValue")
+		intAmnt.Parent = ss.InHandEvents
+		intAmnt.Name = player.UserId .. "_EXP"
+		updClient:FireClient(player,"Exp")
+		return true
+	end
+
+	----- GamePasses -----
+	local function onPromptGamePassPurchaseFinished(player, purchasedPassID, purchaseSuccess)
+		if purchaseSuccess == true then
+			if purchasedPassID == 13098743 then
+				updClient:FireClient(player,"+4 Pets",13098743)
+			elseif purchasedPassID == 13098804 then
+				updClient:FireClient(player,"+8 Pets",13098804)
+			elseif purchasedPassID == 13098841 then
+				updClient:FireClient(player,"Infinite Pets",13098841)
+			elseif purchasedPassID == 13099011 then
+				updClient:FireClient(player,"x2 Damage",13099011)
+			elseif purchasedPassID == 13098958 then
+				_G.dataUpdMod.manipulateData(player,"Set","ExpMultiple",2)
+			elseif purchasedPassID == 13098933 then
+				_G.dataUpdMod.manipulateData(player,"Set","CoinMultiple",2)
+			elseif purchasedPassID == 13099081 then
+				updClient:FireClient(player,"x2 Damage Speed",13099081)
+			elseif purchasedPassID == 13099122 then
+				updClient:FireClient(player,"x2 Walk Speed",13099122)
+			end
+		end
+	end
+	MarketplaceService.PromptGamePassPurchaseFinished:Connect(onPromptGamePassPurchaseFinished)
+
+	local function processReceipt(receiptInfo)
+		local playerProductKey = receiptInfo.PlayerId .. "_" .. receiptInfo.PurchaseId
+		local purchased = false
+		local success, errorMessage = pcall(function()
+			purchased = purchaseHistoryStore:GetAsync(playerProductKey)
+		end)
+
+		if success and purchased then
+			return Enum.ProductPurchaseDecision.PurchaseGranted
+		elseif not success then
+			print("Data store error:" .. errorMessage)
+			error("Data store error:" .. errorMessage)
+		end
+		
+		local player = Players:GetPlayerByUserId(receiptInfo.PlayerId)
+		if not player then
+			return Enum.ProductPurchaseDecision.NotProcessedYet
+		end
+		
+		local handler = productFunctions[receiptInfo.ProductId]
+		local success, result = pcall(handler, receiptInfo, player)
+		if not success or not result then
+			warn("Error occurred while processing a product purchase")
+			print("\nProductId:", receiptInfo.ProductId)
+			print("\nPlayer:", player)
+			return Enum.ProductPurchaseDecision.NotProcessedYet
+		end
+
+		local success, errorMessage = pcall(function()
+			purchaseHistoryStore:SetAsync(playerProductKey, true)
+		end)
+		if not success then
+			error("Cannot save purchase data: " .. errorMessage)
+		end
+		return Enum.ProductPurchaseDecision.PurchaseGranted
+	end
+	MarketplaceService.ProcessReceipt = processReceipt
+
+	function whitelistDoors(player)
+		for _,v in pairs(game.Workspace.Doors:GetChildren()) do
+			if getZoneLevel(player,"Zone") >= tonumber(string.sub(v.Name,5)) then
+				PhysicsService:CollisionGroupSetCollidable(playerGrp, doorList[v.Name], false)
+				updClient:FireClient(player,"Door",v)
+			end
+		end
+	end
+
+	function getZoneLevel(player,stat)
+		if _G.dataUpdMod.manipulateData(player,"Get","Zone") ~= nil then
+			local num = zoneLevel[_G.dataUpdMod.manipulateData(player,"Get","Zone")]
+			return num
+		end
+	end
+
+	spawn(function()
+		while true do
+			wait(5)
+			local tempRichest = {}
+			local tempSkilled = {}
+			for _,player in pairs(game.Players:GetChildren()) do
+				table.insert(tempRichest, {_G.dataUpdMod.manipulateData(player,"Get","Gold"),player.Name})
+				table.insert(tempSkilled, {_G.dataUpdMod.manipulateData(player,"Get","Level"),player.Name})
+			end
+			updateLeaderboard(game.Workspace.Leaderboards.ServerRichest.PrimaryPart.SurfaceGui.Players,tempRichest)
+			updateLeaderboard(game.Workspace.Leaderboards.ServerLevel.PrimaryPart.SurfaceGui.Players,tempSkilled)
+		end
+	end)
+
+	function updateLeaderboard(serverStatPlrs,tempList)
+		table.sort(tempList,function(a,b)
+			return a[1] > b[1]
+		end)
+		
+		for _,label in pairs(serverStatPlrs:GetChildren()) do
+			if label.Name ~= "UIGridLayout" then
+				label.Text = ""
+			end
+		end
+		
+		for i,_ in pairs(tempList) do
+			for _,label in pairs(serverStatPlrs:GetChildren()) do
+				if label.Name ~= "UIGridLayout" and tonumber(label.Name) == i then
+					label.Text = tempList[i][2] .. " : " .. numAbb(tempList[i][1])
+				end
+			end
+		end
+	end
+
+	function numAbb(num)
+		local abb = "K"
+		local cmn = 1000
+		if string.len(tostring(num)) >= 13 then
+			cmn = 1000000000000
+			abb = "T"
+		elseif string.len(tostring(num)) >= 10 then
+			cmn = 1000000000
+			abb = "B"
+		elseif string.len(tostring(num)) >= 7 then
+			cmn = 1000000
+			abb = "M"
+		elseif string.len(tostring(num)) <= 3 then
+			return num
+		end
+		local decConc = string.len(tostring(math.floor(num/cmn)))+1
+		local tempNum = tostring(math.floor(num/cmn))
+		if decConc ~= 4 then
+			for i = decConc,4 do
+				if i == decConc then
+					tempNum = tempNum .. "."
+				else
+					tempNum = tempNum .. tonumber(string.sub(tostring(num),i-1,i-1))
+				end
+			end
+		end
+		return tempNum .. abb
+	end
+
+	----- Useful Functions -----
+	local apex = {
+		["Happy"] = 50,
+		["Farmer"] = 200,
+		["Frog"] = 575,
+		["Goblin Slayer"] = 1350,
+		["Polar Bear"] = 5500,
+		["Dragon"] = 30000
+	}
+
+	local mat = {
+		["Wood"] = 1,
+		["Bronze"] = 2,
+		["Steel"] = 3,
+		["Gold"] = 4
+	}
+
+	local dura = {
+		["Weak"] = 10,
+		["Solid"] = 50,
+		["Durable"] = 210,
+		["Powerful"] = 900,
+		["Icelandic"] = 4000,
+		["Crystalline"] = 20000
+	}
+
+	function getPetStats()
+		for i,world in pairs(game.ServerStorage.Pets:GetChildren()) do
+			local currentApex = ""
+			local tempVal = 0
+			if world.Name == "World0" then
+				tempVal = apex["Happy"]
+				currentApex = "Happy"
+			elseif world.Name == "World1" then
+				tempVal = apex["Farmer"]
+				currentApex = "Farmer"
+			elseif world.Name == "World2" then
+				tempVal = apex["Frog"]
+				currentApex = "Frog"
+			elseif world.Name == "World3" then
+				tempVal = apex["Goblin Slayer"]
+				currentApex = "Goblin Slayer"
+			elseif world.Name == "World4" then
+				tempVal = apex["Polar Bear"]
+				currentApex = "Polar Bear"
+			elseif world.Name == "World5" then
+				tempVal = apex["Dragon"]
+				currentApex = "Dragon"
+			end
+
+			for _,pet in pairs(world:GetChildren()) do
+				local petConfig = game.ReplicatedStorage.GameStats.PetStats:FindFirstChild(pet.Name)
+				if pet.Name ~= currentApex then
+					tempVal = tempVal - (apex[currentApex]/7)
+					petConfig.Damage.Value = tempVal
+					petConfig.Boost.Value = tempVal/5
+					petConfig.Cost.Value = tempVal*tempVal
+					petConfig.Description.Value = "This is a " .. pet.Name
+				else
+					petConfig.Damage.Value = apex[currentApex]
+					petConfig.Boost.Value = apex[currentApex]/5
+					petConfig.Cost.Value = apex[currentApex]*apex[currentApex]
+					petConfig.Description.Value = "This is a " .. pet.Name
+				end
+			end
+		end
+	end
+
+	function getShovelStats()
+		for _,shov in pairs(game.ReplicatedStorage.GameStats.ShovelStats:GetChildren()) do
+			local fldr = game.ReplicatedStorage.GameStats.ShovelStats
+			local multiplier = 1
+			local base = 1
+			for i,v in pairs(mat) do
+				if string.find(shov.Name,i) then
+					multiplier = v
+					break
+				end
+			end
+			for i,v in pairs(dura) do
+				if string.find(shov.Name,i) then
+					base = v
+					break
+				end
+			end
+			shov.Damage.Value = base*multiplier
+			shov.Cost.Value = (base*multiplier)*(base*multiplier)
+		end
+	end
+end
+
+local thing = [[ddd   d]]
