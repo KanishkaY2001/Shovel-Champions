@@ -5,7 +5,7 @@ https://www.roblox.com/games/6021371854/Shovel-Champions-Beta-Release
 ## Instructions:
 1. Create a Roblox account
 2. Join a server within the game
-## Collaborators:
+## Developers:
 - **Kanishka Yamani (Orange_Kenny)** - *Lead Programmer*
 - **Azroxl** - *Lead Builder*
 - **TheCaster230** - *Lead 3D Modeler*  
