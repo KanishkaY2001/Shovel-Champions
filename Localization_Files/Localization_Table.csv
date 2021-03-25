@@ -1,0 +1,139 @@
+﻿Key,Context,Example,Source,es-es,pt-br,Источник
+,,,1x Spin,1x Giro,1x Giro,1х Крутить
+,,,3x Spin,3x Giros,3x Giros,3х Крутить
+,,,A Gift has spawned! Would you like to teleport to the christmas portal?,Un regalo a aparecido! Te gustaria teletransportate al mapa de navidad?,Um present apareceu! Você gostaria de teletransportar para o Portal de Natal?,Подарок появился! Хотите телепортироваться на рождественский портал?
+,,,Azroxl:            | Builder |,Azroxl:               | Constructor |,Azroxl:                | Construtor |,Azroxl:            | Создатель |
+,,,Back,Atrás,Voltar,Назад
+,,,Boost: {number1},Boost: {number1},Boost: {number1},Буст: {number1}
+,,,Buy,Comprar,Comprar,Купить
+,,,Buy Crystalline Pets!,Compra las mascotas de Cristal!,Compre as Mascotes de Cristal!,Покупайте кристальных питомцев!
+,,,Buy Crystalline Shovels!,Compra las Palas de Cristal!,Compre as Pás de Cristal!,Покупайте кристалльные лопаты!
+,,,Buy Farmyard Pets!,Compra las Mascotas de Granja!,Compre as Mascotes da Fazenda!,Покупайте фермерских петов!
+,,,Buy Farmyard Shovels!,Compra las Palas de Granja!,Compre as Pás da Fazenda!,Покупайте фермерские лопаты!
+,,,Buy Icelandic Pets!,Compra las Palas de Invierno!,Compre as Pás de Inverno!,Покупайте ледяных питомцев!
+,,,Buy Icelandic Shovels!,Compra las Mascotas de Invierno!,Compre as Mascotes de Inverno!,Покупайте ледяные лопаты!
+,,,Buy Knightly Pets!,Compra las Mascotas del Castillo!,Compre as Mascotes do Castelo!,Покупайте рыцарских питомцев!
+,,,Buy Knightly Shovels!,Compra las Palas del Castillo!,Compre as Pás do Castelo!,Покупайте рыцарские лопаты!
+,,,Buy Oceanic Pets!,Compra las Mascotas Oceánicas!,Compra as Mascotes Oceânicas!,Покупайте водяных питомцев!
+,,,Buy Oceanic Shovels!,Compra las Palas Oceánicas!,Compre as Pás Oceânicas!,Покупайте водяные лопаты!
+,,,Buy Starter Pets!,Compra las mascotas Iniciales!,Compre as Mascotes Iniciais!,Купить Стартовых Петов
+,,,Buy Starter Shovels!,Compra las Palas Iniciales!,Compre as Pás Iniciais!,Купить Стартовую Лопату!
+,,,CONFIRMATION,Confirmación,CONFIRMAÇÃO,ПОДТВЕРЖДЕНИЕ
+,,,CREDITS,CRÉDITOS,CRÉDITOS,кредиты
+,,,Cannot purchase Shovel. Already own: {number1},No se puede comprar esta Pala. Ya tienes: {number1},Você não pode comprar essa pá. Já possui: {number1},Невозможно купить лопату.  Уже есть: {number1}
+,,,Cannot purchase. You already own a shovel of higher quality.,No se puede comprar. Ya tienes una pala de mayor calidad.,Você não pode comprar esse item. Já possui uma pá de melhor qualidade.,Не могу купить.  У вас уже есть лопата более высокого качества.
+,,,Christmas Event! Click or Tap to enter,Evento de Navidad! Has click o presiona para entrar,Evento de Natal! Clique ou toque para entrar,"Рождественское событие!  Нажмите или коснитесь, чтобы войти"
+,,,Codes,Códigos,Códigos,Коды
+,,,Congratulations! You collected {number1} as Daily Group Reward,Felicidades! Conseguistes {number1} como recompensa Diaria Grupal,Parabéns! Você recebeu {number1} como Recompensa Diária do Grupo!,Поздравляю!  Вы получили {number1} в качестве ежедневной групповой награды
+,,,Congratulations! You collected {number1} as Daily Reward,Felicidades! Conseguistes {number1} como recompensa Diaria,Parabéns! Você recebeu {number1} como Recompensa Diária,Поздравляю!  Вы получили {number1} в качестве ежедневной награды
+,,,Congratulations! You have purchased Castle,Felicidades! Has comprado Castillo,Parabéns! Você comprou Castelo,Поздравляю!  Вы приобрели Замок!
+,,,Congratulations! You have purchased Crystalline,Felicidades! Has comprado Cristal,Parabéns! Você comprou Cristal,Поздравляю!  Вы приобрели кристальный мир
+,,,Congratulations! You have purchased Farm,Felicidades! Has comprado Granja,Parabéns! Você comprou Fazenda,Поздравляю!  Вы приобрели ферму!
+,,,Congratulations! You have purchased Iceland,Felicidades! Has comprado Tierra Helada,Parabéns! Você comprou Terra Gelada,Поздравляю!  Вы купили Исландию!
+,,,Congratulations! You have purchased Waterfall,Felicidades! Has comprado Cascada,Parabéns! Você comprou Cascata,Поздравляю!  Вы приобрели водопад!
+,,,Congratulations! You received {number1} Gems and {number2} Coins!,Felicidades! Conseguistes {number1} Gemas y {number2} Monedas!,Parabéns! Você recebeu {number1} Gemas e {number2} Moedas!,Поздравляю!  Вы получили {number1} драгоценных камней и {number2} монет!
+,,,Cost: 1.5K,Costo: 1.5K,Preço: 1.5K,Стоимость: 1.5К
+,,,Cost: 20K,Costo: 20K,Preço: 20K,Стоимость: 20К
+,,,Cost: 250K,Costo: 250K,Preço: 250K,Стоимость: 250К
+,,,Cost: 8.5K,Costo: 8.5K,Preço: 8.5K,Стоимость: 8.5К
+,,,Cost: 80K,Costo: 80K,Preço: 80K,Стоимость: 80К
+,,,Cost: {number1},Costo: {number1},Preço: {number1},Стоимость: {number1}
+,,,Current Level: {number1},Nivel actual: {number1},Nível Atual: {number1},Текущий уровень: {number1}
+,,,Daily Group Reward,Recompensa Diaria Grupal.,Recompensa Diária do Grupo,Ежедневная групповая награда
+,,,Damage per Second: {number1},Daño por segundo: {number1},Dano por Segundo: {number1},Урона в секунду: {number1}
+,,,Damage: {number1},Daño: {number1},Dano: {number1},Урон: {number1}
+,,,Door Cost: {number1},Costo del Area: {number1},Preço da Zona: {number1},Стоимость прохода: {number1}
+,,,EGG HATCH,Eclosión del Huevo,ECLOSÃO DO OVO,ЯЙЦО ЛЮК
+,,,EGGS,Huevos,OVOS,Яйца
+,,,EQUIP,EQUIPAR,EQUIPAR,ЭКИПИРОВАТЬ
+,,,EQUIPPED,EQUIPADO,EQUIPADO,НАДЕТО
+,,,EVOLVE,ENVOLVER,EVOLUIR,РАЗВИТИЕ
+,,,Each day you can collect a tonne of gold from the daily reward treasure chests. Join the group to get 3x more!,Hay un cofre de recompensa diaria. Entra al grupo para obtener 3x más!,Há um baú de recompensas diárias onde você pode coletar ouro. Junte-se ao grupo para conseguir 3x mais!,"Каждый день вы можете собирать тонну золота из ежедневных сундуков с сокровищами.  Присоединяйтесь к группе, чтобы получить в 3 раза больше!"
+,,,Eggs can be found in each zone. With enough gold you can purchase your own pets to help you dig!,Hay huevos en cada área. Con suficiente oro puedes comprar mascotas que te ayuden a cavar.,Existem ovos em cada área. Com ouro suficiente você pode comprar uma mascote que te ajude a cavar!,"Яйца можно найти в каждой зоне.  Имея достаточно золота, вы можете покупать собственных питомцев, которые помогут вам копать!"
+,,,Enter Code,Poner Código,Inserir Código,Ввести код
+,,,Equip Infinite Pets!!,Equipar mascotas infinitas!!,Equipar Mascotes Infinitas!!,Снаряжайте бесконечных питомцев !!
+,,,Equip {number1} more Pets,Equipar {number1} mascotas más,Equipar mais {number1} Mascotes,Оборудуйте еще {number1} домашних животных
+,,,Error purchasing Shovel.,Error comprando esta Pala.,Erro durante a compra.,Ошибка при покупке лопаты.
+,,,Every zone has a door you must buy before unlocking the next zone. You can get gold by digging for treasures.,Compra zonas y desbloquea nuevas zonas con oro. Consigue Oro cavando tesoros.,Cada área possui uma porta que voce deve desbloquear com ouro antes de avançar à próxima zona. Consiga ouro cavando tesouros.,"В каждой зоне есть дверь, которую вы должны купить, прежде чем разблокировать следующую зону.  Вы можете получить золото, копая сокровища."
+,,,Experience: {number1},Experiencia: {number1},Experiência: {number1},Опыт: {number1}
+,,,Follow @NastaStudiosRB on Twitter for Epic Rewards!,Sigue @NastaStudiosRB en Twitter para tener Recompensas!,Siga @NastaStudiosRB no Twitter para Recompensas Épicas!,"Подпишитесь на @NastaStudiosRB в Твиттер, чтобы получить Эпическое вознаграждение!"
+,,,GAMEPASSES,Gamepasses,PASSES DO JOGO,Геймпассы
+,,,Gems,Gemas,Gemas,Алмазы
+,,,Gems: {number1},Gemas: {number1},Gemas: {number1},Алмазов: {number1}
+,,,Get 3 Times More Daily Rewards by joining Nasta Studios Roblox Group!,Consegue el triple de la recompensa diaria uniendote al grupo de roblox de Nasta Studios!!!!!,Consiga o triplo da Recompensa Diária juntando-se ao grupo do Roblox de Nasta Studios!!!!,"Получайте в 3х больше ежедневных наград, присоединившись к Nasta Studios Roblox Group!"
+,,,Gifts Collected: {number1},Regalos obtenidos: {number1},Presentes Coletados: {number1},Собрано подарков: {number1}
+,,,Gives 2x Digging Speed,Te da 2x Velocidad de minado,Te dá 2x Velocidade de Escavação,Дает вам 2x Скорость копания
+,,,Gives you 2x Exp,Te da 2x EXP,Te dá 2x EXP,Дает вам 2x хп
+,,,Gives you 2x Gold,Te da 2x Oro,Te dá 2x Ouro,Дает вам 2x Золота
+,,,Gives you 2x Walkspeed,Te da 2x Velocidad de movimiento,Te dá 2x Velocidade de Movimento,Дает вам 2x скорость ходьбы
+,,,Gives you 2x damage,Te da 2x Daño,Te dá 2x Dano,Дает вам 2x урон
+,,,Gold,Oro,Ouro,золото
+,,,Gold: {number1},Oro: {number1},Ouro: {number1},Золота: {number1}
+,,,HATS,Sombreros,CHAPÉUS,ШЛЯПЫ
+,,,Highest level players in the game,Jugadores con el nivel más alto,Jogadores com o nível mais alto,Игроки самого высокого уровня в игре
+,,,Inventory,Inventario,INVENTÁRIO,Инвентарь
+,,,Level,Nivel,Nível,Уровень
+,,,Level: {number1},Nivel: {number1},Nível: {number1},Уровень: {number1}
+,,,Loading,Cargando,Carregando,Загрузка
+,,,Loading .,Cargando .,Carregando .,Загрузка.
+,,,Loading . .,Cargando . .,Carregando . .,Загрузка..
+,,,Loading . . .,Cargando . . .,Carregando . . .,Загрузка...
+,,,Loading Accessories . . .,Cargando accesorios . . .,Carregando acessórios . . .,Загрузка аксессуаров . . .
+,,,Loading Accessories . . . .,Cargando accesorios . . . .,Carregando acessórios . . . .,Загрузка аксессуаров . . . .
+,,,Loading Accessories . . . . .,Cargando accesorios . . . . .,Carregando acessórios . . . . .,Загрузка аксессуаров . . . . .
+,,,Loading Accessories . . . . . .,Cargando accesorios . . . . . .,Carregando acessórios . . . . . .,Загрузка аксессуаров . . . . . .
+,,,Loading Shovel...,Cargando Pala...,Carregando pá...,Загрузка лопат . . .
+,,,Maximum Hats reached!,Maximos sombreros alcanzados!,Número Máximo de Chapéus antingido!,Достигнуто макс. количество шляп!
+,,,Maximum pets reached! Buy Gamepasses to unlock more Pets,Maximas mascotas alcanzadas! Compra Gamepasses para equiparte mas mascotas!,Número máximo de Mascotes atingido! Compre Gamepasses para desbloquear mais Mascotes,"Достигнуто макс. количество питомцев!  Купите игровые карты, чтобы разблокировать больше питомцев"
+,,,Menu,Menú,Menu,Меню
+,,,Music,Música,Música,Музыка
+,,,Must wait less than 1 Minute until next reward.,Debes esperar menos de 1 Minuto para la siguiente recompensa,Você deve esperar menos de 1 Minuto para a próxima recompensa.,"Необходимо подождать менее 1 минуты, до следующей награды."
+,,,Must wait:{number1} Hours & {number2} Minutes until next reward.,Debes esperar:{number1} Horas & {number2} Minutos antes de la siguiente Recompensa.,Você deve esperar:{number1} Horas e {number2} Minutos até a próxima recompensa.,Необходимо подождать: {number1} часов и {number2} минут до следующей награды.
+,,,NO,NO,NÃO,Нет
+,,,New areas coming soon!,Nuevas areas viniendo pronto!,Novas áreas em breve!,Скоро появятся новые локации!
+,,,Next,Siguiente,Próximo,Дальше
+,,,Normal Daily Reward,Recompensa Diaria.,Recompensa Diária,Обычная ежедневная награда
+,,,OFF,Apagada,DESLIGADA,Выкл
+,,,ON,Encendida,LIGADA,Вкл
+,,,Oh No! You are missing {number1} Gold,Oh No! Te faltan {number1} de Oro.,Ah não! Faltam {number1} Ouro.,О нет!  Вам не хватает {number1} золота
+,,,Orange_Kenny:               | Programmer |,Orange_Kenny:               | Programador |,Orange_Kenny:               | Programador |,Orange_Kenny:               | Скриптер |
+,,,PETS,Mascotas,MASCOTES,ПЕТЫ
+,,,PURCHASE,COMPRAR,COMPRAR,ПОКУПКА
+,,,Pets Owned: {number1},Mascotas Propias: {number1},Mascotes Possuídos: {number1},Питомцев имеется: {number1}
+,,,Play,Jugar,Jogar,Играть
+,,,Players,Jugadores,Jogadores,Игроки
+,,,Players with highest Gems in Game,Jugadores con más gemas en el juego,Jogadores com mais gemas no jogo,Игроки с наибольшим количеством драгоценных камней в игре
+,,,Players with most coins in the game,Jugadores con más monedas en el juego,Jogadores com mais moedas no jogo,Игроки с наибольшим количеством монет в игре
+,,,Power of this Shovel: {number1},Poder de la Pala: {number1},Poder desta Pá: {number1},Мощность лопаты: {number1}
+,,,REDEEM,Canjear,RESGATAR,ВВЕСТИ
+,,,Rare Pet Gift: Spawns Everyday at 4PM EST,Pet rara de regalo: Aparece todos los dias a las 4PM EST,Presente de Mascotes Raro: Spawna todo dia às 16:00 EST (18:00 BRT),Редкий подарок для питомца: появляется каждый день в 16:00 по восточному стандартному времени.
+,,,Redeemed already. Follow @NastaStudiosRB for more awesome codes!,Ya canjeado. Sigue @NastaStudiosRB para mas codigos!,Já resgatado. Siga @NastaStudiosRB para mais códigos incríveis!,"Активированно.  Подпишитесь на @NastaStudiosRB, чтобы получить больше потрясающих кодов!"
+,,,SETTINGS,Ajustes,CONFIGURAÇÕES,НАСТРОЙКИ
+,,,SHOP,Tienda,LOJA,МАГАЗИН
+,,,SHOVELS,PALAS,Pás,ЛОПАТЫ
+,,,SPAWN/PORTAL,SPAWM/PORTAL,SPAWN/PORTAL,ПОРТАЛ / ПОРТАЛ
+,,,STATS,Estadísticas,ESTATÍSTICAS,СТАДЫ
+,,,Scales with Zone,Escalas con zona,Escala em tamanho com as Zonas,Весы с зоной
+,,,Successfully Bought Item: {number1},Artículo comprado correctamente: {number1},Item comprado com sucesso: {number1},Успешно купленный товар: {number1}
+,,,TUTORIAL,TUTORIAL,TUTORIAL,Туториал 
+,,,Thecaster230:      | Modeler |,Thecaster230:      | Modelerador |,Thecaster230:      | Modelador |,Thecaster230:      | Модельер |
+,,,There are mud parts all around the world. Click or tap on one to start digging for hidden treasures!,Alrededor del mundo hay Tierra. Clickea o Presiona uno de ellos para empezar a cavar por tesoros escondidos!,Existem pedaços de terra por todo o mundo. Clique ou toque em um para começar a buscar por tesouros escondidos!,"Грязь есть по всему миру.  Нажмите или коснитесь одного из них, чтобы начать копать в поисках спрятанных сокровищ!"
+,,,Time Played:  {number1} Months | {number2} Days | {number3} Hours,Tiempo Jugado:  {number1} Meses | {number2} Diaz | {number3} Horas,Tempo Jogado:  {number1} Meses | {number2} Dias | {number3} Horas,Сыграно время:  {number1} Месяцов | {number2} Дней | {number3} Часов
+,,,Treasure Found: {number1},Tesoros encontrados: {number1},Tesouros Encontrados: {number1},Найдено сокровищ: {number1}
+,,,Unlocked {number1} New Pet!,Desbloqueastes {number1} Nueva mascota!,Você desbloqueou {number1} Nova Mascote!,Разблокировано {number1} нового питомца!
+,,,Unlocked {number1} New Pets!,Desbloqueastes {number1} Nuevas mascotas!,Você desbloqueou {number1} Novas Mascotes!,Разблокировано {number1} новых питомцев!
+,,,Update: Gold has been reset and you have received exclusive hats for getting over {number1}K Gold!,Actualización: ¡El oro se ha reiniciado y has recibido sombreros exclusivos por superar {number1} K de oro!,Atualização: O Ouro foi resetado e você recebeu chapéus exclusivos por superar os {number1} K de Ouro!,"Обновление: золото было сброшено, и вы получили эксклюзивные шляпы за получение более {number1} K Золоту!"
+,,,Update: Gold has been reset and you have received exclusive hats for getting over {number1}M Gold!,Actualización: ¡El oro se ha reiniciado y ha recibido sombreros exclusivos por superar {number1} M de oro!,Atualização: O Ouro foi resetado e você recebeu chapéus exclusivos por superar os {number1} M de Ouro!,"Обновление: золото было сброшено, и вы получили эксклюзивные шляпы за получение более {number1} M Золота!"
+,,,VIP Coming Soon!,VIP viniendo pronto!,VIP Em Breve!,VIP скоро появится!
+,,,Would you like to buy {number1}x Eggs for {number2} Gems?,Te gustaria comprar {number1}x huevos por {number2} Gemas?,Você gostaria de comprar {number1}x Ovos por {number2} Gemas?,Хотите купить {number1} x яиц за {number2} самоцветов?
+,,,YES,SI,SIM,Да
+,,,You can combine 3 of the same pets at the same level to evolve them into a more powerful pet!,Fusiona 3 mascotas del mismo tipo y nivel para conseguir una más poderosa.,Você pode combinar 3 mascotes do mesmo tipo e nível para conseguir uma mascote mais poderosa!,"Вы можете комбинировать 3 одинаковых питомца на одном уровне, чтобы превратить их в более сильного питомца!"
+,,,You can visit shops at each zone and purchase new and powerful shovels to dig faster.,Visita tiendas en cada zona y compra nuevas y mas poderosas palas.,Visite lojas em cada área para comprar novas e poderosas pás que cavam mais rápido.,"Вы можете посещать магазины в каждой зоне и покупать новые мощные лопаты, чтобы копать быстрее."
+,,,You need {number1} more Gems to purchase these Eggs.,Necesitas {number1} Gemas más para comprar estos huevos.,Você precisa de mais {number1} Gemas para comprar esses Ovos.,"Чтобы купить эти тиры, вам нужно еще {number1} драгоценных камней."
+,,,{number1}Castle,{number1}Castillo,{number1}Castelo,{number1} Рыцарь
+,,,{number1}Crystalline,{number1}Cristal,{number1}Cristal,{number1} Кристалический
+,,,{number1}DEVELOPER,{number1}DESARROLLADOR,{number1}DESENVOLVEDOR,{number1}РАЗРАБОТЧИК
+,,,{number1}Farm,{number1}Granja,{number1}Fazenda,{number1} Фермер
+,,,{number1}Iceland,{number1}Tierra Helada,{number1}Terra Gelada,{number1} Ледяной
+,,,{number1}Newbie,{number1}Novato,{number1}Novato,{number1} Новичок
+,,,{number1}Waterfall,{number1}Cascada,{number1}Cascata,{number1} Водяной
